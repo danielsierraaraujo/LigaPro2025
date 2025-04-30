@@ -31,6 +31,12 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@eq.Id" class="btn btn-sm btn-primary">Editar</a>
                     <a asp-action="Detalle" asp-route-id="@eq.Id" class="btn btn-sm btn-info">Ver</a>
+                    <a asp-controller="Jugador"
+                       asp-action="Index"
+                       asp-route-equipoId="@eq.Id"
+                       class="btn btn-sm btn-warning">
+                        Jugadores
+                    </a>
                 </td>
             </tr>
         }

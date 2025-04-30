@@ -12,7 +12,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LigaPro2025</a>
+                
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo-ligapro.png" alt="LigaPro" style="height:40px;" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,8 +25,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Equipo" asp-action="ListaEquipos">Equipos</a>
                         </li>
+                        <!--
+                          El enlace de Jugadores debe generarse desde la vista de Equipos
+                          pasando el equipoId correspondiente, por eso lo quitamos de aquí.
+                        -->
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Jugador" asp-action="Index" asp-route-equipoId="1">Jugadores</a>
+                            <a class="nav-link disabled">Jugadores</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Estadisticas" asp-action="Index">Estadísticas</a>
