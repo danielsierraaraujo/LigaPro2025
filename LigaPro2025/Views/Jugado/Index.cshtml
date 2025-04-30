@@ -1,0 +1,40 @@
+﻿@model IEnumerable<LigaPro2025.Models.Jugador>
+@{
+    var equipo = ViewBag.Equipo as LigaPro2025.Models.Equipo;
+    ViewData["Title"] = "Jugadores de " + equipo.Nombre;
+}
+<h2>@ViewData["Title"]</h2>
+<a asp-action="Create" asp-route-equipoId="@equipo.Id" class="btn btn-success mb-2">+ Nuevo Jugador</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th># Cam</th>
+            <th>Goles</th>
+            <th>A</th>
+            <th>Sueldo</th>
+            <th>Titular</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var j in Model)
+        {
+            <tr>
+                <td>@j.Nombre</td>
+                <td>@j.NumeroCamiseta</td>
+                <td>@j.Goles</td>
+                <td>@j.Asistencias</td>
+                <td>@j.Sueldo.ToString("C")</td>
+                <td>@(j.Titular ? "Sí" : "No")</td>
+                <td>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="id" value="@j.Id" />
+                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-controller="Equipo" asp-action="Detalle" asp-route-id="@equipo.Id" class="btn btn-secondary">← Volver</a>

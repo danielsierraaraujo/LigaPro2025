@@ -1,0 +1,38 @@
+﻿@model IEnumerable<LigaPro2025.Models.Equipo>
+@{
+    ViewData["Title"] = "Tabla de Posiciones";
+}
+<h2>@ViewData["Title"]</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Pos</th>
+            <th>Equipo</th>
+            <th>PJ</th>
+            <th>G</th>
+            <th>E</th>
+            <th>P</th>
+            <th>Puntos</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var eq = Model.ElementAt(i);
+            <tr>
+                <td>@(i + 1)</td>
+                <td>@eq.Nombre</td>
+                <td>@eq.PartidosJugados</td>
+                <td>@eq.PartidosGanados</td>
+                <td>@eq.PartidosEmpatados</td>
+                <td>@eq.PartidosPerdidos</td>
+                <td>@eq.Puntos</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@eq.Id" class="btn btn-sm btn-primary">Editar</a>
+                    <a asp-action="Detalle" asp-route-id="@eq.Id" class="btn btn-sm btn-info">Ver</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

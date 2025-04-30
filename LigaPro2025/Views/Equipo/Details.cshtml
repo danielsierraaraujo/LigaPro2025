@@ -1,0 +1,25 @@
+﻿@model LigaPro2025.Models.Equipo
+@{
+    ViewData["Title"] = "Detalle de " + Model.Nombre;
+}
+<h2>@ViewData["Title"]</h2>
+<div>
+    <table class="table table-bordered">
+        <tbody>
+            <tr><th>Partidos Jugados</th><td>@Model.PartidosJugados</td></tr>
+            <tr><th>Ganados</th><td>@Model.PartidosGanados</td></tr>
+            <tr><th>Empatados</th><td>@Model.PartidosEmpatados</td></tr>
+            <tr><th>Perdidos</th><td>@Model.PartidosPerdidos</td></tr>
+            <tr><th>Puntos</th><td>@Model.Puntos</td></tr>
+            <tr><th>Presupuesto Total</th><td>@((decimal)ViewBag.PresupuestoTotal).ToString("C")</td></tr>
+        </tbody>
+    </table>
+    <h4>Jugadores Titulares</h4>
+    <ul>
+        @foreach (var j in (List<LigaPro2025.Models.Jugador>)ViewBag.Titulares)
+        {
+            <li>@j.Nombre (#{j.NumeroCamiseta}) - G: @j.Goles, A: @j.Asistencias</li>
+        }
+    </ul>
+    <a asp-action="ListaEquipos" class="btn btn-secondary">← Volver</a>
+</div>
