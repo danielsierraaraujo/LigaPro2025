@@ -1,0 +1,21 @@
+﻿@model IEnumerable<LigaPro2025.Models.Equipo>
+@{
+    ViewData["Title"] = "Selecciona un equipo";
+}
+
+<h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+<div class="row">
+    @foreach (var equipo in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 text-center">
+                <img src="@Url.Content($"~/logos/{equipo.Logo}")" class="card-img-top" style="max-height: 150px; object-fit: contain;" alt="@equipo.Nombre" />
+                <div class="card-body">
+                    <h5 class="card-title">@equipo.Nombre</h5>
+                    <a class="btn btn-primary" asp-action="Index" asp-route-equipoId="@equipo.Id">Ver Jugadores</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

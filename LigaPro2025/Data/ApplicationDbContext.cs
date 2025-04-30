@@ -50,9 +50,10 @@ namespace LigaPro2025.Data
                         Nombre = $"Jugador {num} - Equipo {equipoId}",
                         NumeroCamiseta = num,
                         Goles = 0,
+                        Posicion = "Delantero",
                         Asistencias = 0,
                         Sueldo = 1000m,
-                        Titular = true
+                        EsTitular = true
                     });
                 }
             }

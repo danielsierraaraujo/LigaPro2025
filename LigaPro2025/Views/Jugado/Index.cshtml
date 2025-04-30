@@ -1,40 +1,55 @@
 ﻿@model IEnumerable<LigaPro2025.Models.Jugador>
 @{
-    var equipo = ViewBag.Equipo as LigaPro2025.Models.Equipo;
-    ViewData["Title"] = "Jugadores de " + equipo.Nombre;
+    ViewData["Title"] = "Jugadores Titulares";
+    var equipoId = ViewBag.EquipoId;
+    var equipoNombre = ViewBag.EquipoNombre;
 }
-<h2>@ViewData["Title"]</h2>
-<a asp-action="Create" asp-route-equipoId="@equipo.Id" class="btn btn-success mb-2">+ Nuevo Jugador</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th># Cam</th>
-            <th>Goles</th>
-            <th>A</th>
-            <th>Sueldo</th>
-            <th>Titular</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var j in Model)
-        {
-            <tr>
-                <td>@j.Nombre</td>
-                <td>@j.NumeroCamiseta</td>
-                <td>@j.Goles</td>
-                <td>@j.Asistencias</td>
-                <td>@j.Sueldo.ToString("C")</td>
-                <td>@(j.Titular ? "Sí" : "No")</td>
-                <td>
-                    <form asp-action="Delete" method="post" style="display:inline">
-                        <input type="hidden" name="id" value="@j.Id" />
-                        <button class="btn btn-sm btn-danger">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<a asp-controller="Equipo" asp-action="Detalle" asp-route-id="@equipo.Id" class="btn btn-secondary">← Volver</a>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center">
+            <img src="~/img/logos/@equipoNombre.ToLower().Replace(" ", "")-logo.png" alt="Logo @equipoNombre"
+                 style="height: 50px; margin-right: 15px;" />
+            <h2 class="mb-0">@equipoNombre - Jugadores Titulares</h2>
+        </div>
+        <a class="btn btn-success" asp-action="Create" asp-route-equipoId="@equipoId">+ Agregar Jugador</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">No hay jugadores titulares registrados para este equipo.</div>
+    }
+    else
+    {
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Posición</th>
+                    <th>Edad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var jugador in Model)
+                {
+                    <tr>
+                        <td>@jugador.Id</td>
+                        <td>@jugador.Nombre</td>
+                        <td>@jugador.Posicion</td>
+                        <td>@jugador.Edad</td>
+                        <td>
+                            <form asp-action="Delete" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@jugador.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar a este jugador?');">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -73,7 +73,7 @@ namespace LigaProMVC.Controllers
 
             
             ViewBag.Titulares = equipo.Jugadores
-                                      .Where(j => j.Titular)
+                                      .Where(j => j.EsTitular)
                                       .ToList();
 
             return View(equipo);

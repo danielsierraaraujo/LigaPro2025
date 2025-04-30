@@ -11,6 +11,8 @@ namespace LigaPro2025.Models
         [Required, MaxLength(100)]
         public string Nombre { get; set; }
 
+        public int? Edad { get; set; }
+
         [ForeignKey("Equipo")]
         public int EquipoId { get; set; }
         public Equipo Equipo { get; set; }
@@ -28,6 +30,12 @@ namespace LigaPro2025.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Sueldo { get; set; }
 
-        public bool Titular { get; set; }
+        [Required]
+        public string Posicion { get; set; }
+
+        [Range(1, 99)]
+        public int Numero { get; set; }
+
+        public bool EsTitular { get; set; } = true;
     }
 }

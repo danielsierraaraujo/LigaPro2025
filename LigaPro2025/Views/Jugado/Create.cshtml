@@ -1,38 +1,53 @@
 ﻿@model LigaPro2025.Models.Jugador
 @{
-    var equipo = ViewBag.Equipo as LigaPro2025.Models.Equipo;
-    ViewData["Title"] = "Agregar Jugador a " + equipo.Nombre;
+    ViewData["Title"] = "Agregar Jugador";
 }
-<h2>@ViewData["Title"]</h2>
-<form asp-action="Create" method="post">
-    <input type="hidden" asp-for="EquipoId" />
-    <div class="form-group">
-        <label asp-for="Nombre"></label>
-        <input asp-for="Nombre" class="form-control" />
+
+<h2 class="mb-4 text-center">@ViewData["Title"]</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <input type="hidden" asp-for="EquipoId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Nombre" class="form-label">Nombre del jugador</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Posicion" class="form-label">Posición</label>
+                <select asp-for="Posicion" class="form-control">
+                    <option value="">Seleccione...</option>
+                    <option>Portero</option>
+                    <option>Defensa</option>
+                    <option>Centrocampista</option>
+                    <option>Delantero</option>
+                </select>
+                <span asp-validation-for="Posicion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Numero" class="form-label">Número</label>
+                <input asp-for="Numero" class="form-control" type="number" min="1" max="99" />
+                <span asp-validation-for="Numero" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="EsTitular" class="form-label">¿Es titular?</label>
+                <select asp-for="EsTitular" class="form-control">
+                    <option value="true">Sí</option>
+                    <option value="false">No</option>
+                </select>
+                <span asp-validation-for="EsTitular" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Guardar</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="NumeroCamiseta"></label>
-        <input asp-for="NumeroCamiseta" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Goles"></label>
-        <input asp-for="Goles" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Asistencias"></label>
-        <input asp-for="Asistencias" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Sueldo"></label>
-        <input asp-for="Sueldo" class="form-control" />
-    </div>
-    <div class="form-check">
-        <input asp-for="Titular" class="form-check-input" />
-        <label asp-for="Titular" class="form-check-label">Titular</label>
-    </div>
-    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-    <a asp-action="Index" asp-route-equipoId="@equipo.Id" class="btn btn-secondary mt-3">Cancelar</a>
-</form>
+</div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

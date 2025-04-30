@@ -10,35 +10,38 @@ namespace LigaProMVC.Controllers
     public class JugadorController : Controller
     {
         private readonly ApplicationDbContext _db;
+
         public JugadorController(ApplicationDbContext db)
         {
             _db = db;
         }
 
-        // GET: /Jugador/Index?equipoId=5
-        public async Task<IActionResult> Index(int equipoId)
+        // Muestra los jugadores titulares del equipo
+        public IActionResult Index(int equipoId)
         {
-            var equipo = await _db.Equipos.FindAsync(equipoId);
-            if (equipo == null) return NotFound();
+            var jugadores = _db.Jugadores
+                .Where(j => j.EquipoId == equipoId && j.EsTitular)
+                .ToList();
 
-            ViewBag.Equipo = equipo;
-            var lista = await _db.Jugadores
-                                 .Where(j => j.EquipoId == equipoId)
-                                 .ToListAsync();
-            return View(lista);
+            var equipo = _db.Equipos.FirstOrDefault(e => e.Id == equipoId);
+            ViewBag.EquipoNombre = equipo?.Nombre ?? "Equipo";
+            ViewBag.EquipoId = equipoId;
+
+            return View(jugadores);
         }
 
-        // GET: /Jugador/Create?equipoId=5
+        // Muestra el formulario para crear un jugador
         public async Task<IActionResult> Create(int equipoId)
         {
             var equipo = await _db.Equipos.FindAsync(equipoId);
-            if (equipo == null) return NotFound();
+            if (equipo == null)
+                return NotFound();
 
             ViewBag.Equipo = equipo;
             return View(new Jugador { EquipoId = equipoId });
         }
 
-        // POST: /Jugador/Create
+        // Guarda el jugador
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Jugador jugador)
@@ -51,23 +54,31 @@ namespace LigaProMVC.Controllers
 
             _db.Jugadores.Add(jugador);
             await _db.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index), new { equipoId = jugador.EquipoId });
         }
 
-        // POST: /Jugador/Delete
+        // Elimina un jugador
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var jugador = await _db.Jugadores.FindAsync(id);
-            if (jugador != null)
-            {
-                var equipoId = jugador.EquipoId;
-                _db.Jugadores.Remove(jugador);
-                await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { equipoId });
-            }
-            return NotFound();
+            if (jugador == null)
+                return NotFound();
+
+            var equipoId = jugador.EquipoId;
+            _db.Jugadores.Remove(jugador);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index), new { equipoId });
+        }
+
+        // Muestra la lista de equipos para elegir
+        public IActionResult SeleccionarEquipo()
+        {
+            var equipos = _db.Equipos.ToList();
+            return View(equipos);
         }
     }
 }
